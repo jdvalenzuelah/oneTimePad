@@ -19,11 +19,13 @@ def bitarray_xor(array1: bitarray, array2: bitarray) -> bitarray:
 def encrypt(string: str) -> tuple:
     key_bitarray = string_to_bitarray(get_random_string(len(string)))
     string_bitarray = string_to_bitarray(string)
-    return bitarray_xor(string_bitarray, key_bitarray).to01(), key_bitarray.to01()
+    return bitarray_xor(string_bitarray, key_bitarray).tobytes().decode('utf-8'), key_bitarray.tobytes().decode('utf-8')
 
 def decrypt(enc: str, key: str) -> str:
-    enc_bitarray = bitarray(enc)
-    key_bitarray = bitarray(key)
+    enc_bitarray = bitarray()
+    enc_bitarray.frombytes(enc.encode('utf-8'))
+    key_bitarray = bitarray()
+    key_bitarray.frombytes(key.encode('utf-8'))
     return bitarray_xor(enc_bitarray, key_bitarray).tobytes().decode('utf-8')
 
 def get_file_contents(path: str) -> str:
